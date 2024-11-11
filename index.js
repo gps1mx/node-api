@@ -4,10 +4,10 @@ const mysql = require('mysql2');
 
 // Configurar la conexión a la base de datos
 const db = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: process.env.CAPROVER_HOST,
+    user: process.env.CAPROVER_USER,
+    password: process.env.CAPROVER_PASSWORD,
+    database: process.env.CAPROVER_DATABASE
 });
 
 // Conectar a la base de datos
@@ -23,15 +23,20 @@ db.connect((err) => {
 app.use(express.json());
 
 // Agregar rutas para las operaciones CRUD
-app.get('/api/meme', (req, res) => {
-    // Ejemplo de consulta a la base de datos
-    db.query('SELECT * FROM tu_tabla', (err, results) => {
-        if (err) {
-            console.error('error ejecutando consulta:', err);
-            return res.status(500).send({ message: 'Error al ejecutar la consulta' });
-        }
-        res.json(results);
-    });
+// app.get('/api/meme', (req, res) => {
+//     // Ejemplo de consulta a la base de datos
+//     db.query('SELECT * FROM tu_tabla', (err, results) => {
+//         if (err) {
+//             console.error('error ejecutando consulta:', err);
+//             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
+//         }
+//         res.json(results);
+//     });
+// });
+
+// test route, to check if the server is running
+app.get('/api/test', (req, res) => {
+    res.send('Server is running');
 });
 
 // Iniciar el servidor
