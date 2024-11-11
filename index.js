@@ -29,7 +29,7 @@ app.listen(3000, () => {
 
 // test route, to check if the server is running
 app.get('/health', (req, res) => {
-    res.send('Server is running');
+    res.json('Server is running');
 });
 
 // Todos los artículos
