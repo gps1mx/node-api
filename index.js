@@ -34,7 +34,7 @@ app.get('/health', (req, res) => {
 
 // Todos los artículos
 app.get('/api/articles', (req, res) => {
-    db.query('SELECT * FROM articles', (err, results) => {
+    db.query('SELECT * FROM articles where deleted = 0', (err, results) => {
         if (err) {
             console.error('error ejecutando consulta:', err);
             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
@@ -79,7 +79,7 @@ app.put('/api/articles/:id', (req, res) => {
             console.error('error ejecutando consulta:', err);
             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
         }
-        res.send({ message: 'Artículo actualizado!' });
+        res.send({ message: 'Artículo actualizado' });
     });
 });
 
