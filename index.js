@@ -22,9 +22,14 @@ db.connect((err) => {
 // Agregar middleware para analizar las solicitudes entrantes
 app.use(express.json());
 
-// Si una solicitud no coincide con ninguna ruta, devolver un error 404
-app.use((req, res) => {
-    res.status(404).send({ message: 'Recurso no encontrado' });
+// Iniciar el servidor
+app.listen(3000, () => {
+    console.log('Servidor iniciado en el puerto 3000');
+});
+
+// test route, to check if the server is running
+app.get('/health', (req, res) => {
+    res.send('Server is running');
 });
 
 // Todos los artículos
@@ -89,12 +94,7 @@ app.delete('/api/articles/:id', (req, res) => {
     });
 });
 
-// test route, to check if the server is running
-app.get('/health', (req, res) => {
-    res.send('Server is running');
-});
-
-// Iniciar el servidor
-app.listen(3000, () => {
-    console.log('Servidor iniciado en el puerto 3000');
+// Si una solicitud no coincide con ninguna ruta, devolver un error 404
+app.use((req, res) => {
+    res.status(404).send({ message: 'Recurso no encontrado' });
 });
