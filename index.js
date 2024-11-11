@@ -23,16 +23,16 @@ db.connect((err) => {
 app.use(express.json());
 
 // Agregar rutas para las operaciones CRUD
-// app.get('/api/meme', (req, res) => {
-//     // Ejemplo de consulta a la base de datos
-//     db.query('SELECT * FROM tu_tabla', (err, results) => {
-//         if (err) {
-//             console.error('error ejecutando consulta:', err);
-//             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
-//         }
-//         res.json(results);
-//     });
-// });
+app.get('/', (req, res) => {
+    // Ejemplo de consulta a la base de datos
+    db.query('SELECT * FROM articles', (err, results) => {
+        if (err) {
+            console.error('error ejecutando consulta:', err);
+            return res.status(500).send({ message: 'Error al ejecutar la consulta' });
+        }
+        res.json(results);
+    });
+});
 
 // test route, to check if the server is running
 app.get('/', (req, res) => {
