@@ -4,10 +4,10 @@ const mysql = require('mysql2');
 
 // Configurar la conexión a la base de datos
 const db = mysql.createConnection({
-    host: process.env.HOST || 'localhost',
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    host: HOST,
+    user: USER,
+    password: PASSWORD,
+    database: DATABASE
 });
 
 // Conectar a la base de datos
