@@ -79,6 +79,9 @@ app.put('/api/articles/:id', (req, res) => {
             console.error('error ejecutando consulta:', err);
             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
         }
+        if (results.length === 0) {
+            return res.status(404).send({ message: 'Artículo no encontrado' });
+        }
         res.send({ message: 'Artículo actualizado' });
     });
 });
