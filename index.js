@@ -71,10 +71,12 @@ app.post('/api/articles', (req, res) => {
 });
 
 // Actualizar un artículo
+// Actualizar un artículo
 app.put('/api/articles/:id', (req, res) => {
     const { title, body, author_id, initial_date, final_date } = req.body;
     const filtered_final_date = final_date ? final_date : null;
-    db.query('UPDATE articles SET title = ?, body = ?, author_id = ?, initial_date = ?, final_date = ? WHERE id = ?', [title, body, author_id, initial_date, filtered_final_date, req.params.id], (err, results) => {
+    // Check if the article exists
+    db.query('SELECT * FROM articles WHERE id = ?', [req.params.id], (err, results) => {
         if (err) {
             console.error('error ejecutando consulta:', err);
             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
@@ -82,7 +84,14 @@ app.put('/api/articles/:id', (req, res) => {
         if (results.length === 0) {
             return res.status(404).send({ message: 'Artículo no encontrado' });
         }
-        res.send({ message: 'Artículo actualizado' });
+        // Update the article if it exists
+        db.query('UPDATE articles SET title = ?, body = ?, author_id = ?, initial_date = ?, final_date = ? WHERE id = ?', [title, body, author_id, initial_date, filtered_final_date, req.params.id], (err, results) => {
+            if (err) {
+                console.error('error ejecutando consulta:', err);
+                return res.status(500).send({ message: 'Error al ejecutar la consulta' });
+            }
+            res.send({ message: 'Artículo actualizado' });
+        });
     });
 });
 
