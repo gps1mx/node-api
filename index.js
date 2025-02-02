@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const mysql = require('mysql2');
@@ -22,6 +24,24 @@ db.connect((err) => {
 // Agregar middleware para analizar las solicitudes entrantes
 app.use(express.json());
 
+// Middleware de autenticación
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['x-api-token'];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token de autenticación no proporcionado' });
+    }
+
+    if (token !== process.env.API_TOKEN) {
+        return res.status(403).json({ message: 'Token de autenticación inválido' });
+    }
+
+    next();
+};
+
+// Aplicar el middleware de autenticación a todas las rutas /api
+app.use('/api', authenticateToken);
+
 // Iniciar el servidor
 app.listen(3000, () => {
     console.log('Servidor iniciado en el puerto 3000');
@@ -32,9 +52,9 @@ app.get('/health', (req, res) => {
     res.json('Server is running');
 });
 
-// Todos los artículos
-app.get('/api/articles', (req, res) => {
-    db.query('SELECT * FROM articles where deleted = 0', (err, results) => {
+// Todos los clientes
+app.get('/api/clientes', (req, res) => {
+    db.query('SELECT * FROM clientes where status = 1', (err, results) => {
         if (err) {
             console.error('error ejecutando consulta:', err);
             return res.status(500).send({ message: 'Error al ejecutar la consulta' });
